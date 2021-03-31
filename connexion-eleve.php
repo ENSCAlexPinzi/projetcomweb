@@ -1,11 +1,13 @@
 <?php
-require_once "./functions.php";
+require_once "includes/functions.php";
 session_start();  
 $error;
+
+//On verifie si les paramètre de connexions existe et correspondent à un profil elève
 if(!empty($_POST['username']) && !empty($_POST['password'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $checklogin = getDb()->prepare("SELECT * FROM eleve WHERE idEl =? AND mdpEl =? AND estGestionnaire = 0");
+    $checklogin = getDb()->prepare("SELECT * FROM identifiant WHERE identifiant =? AND motdepasse =? AND estGestionnaire =1");
     $checklogin->execute(array($username, $password));
 
     if($checklogin->rowCount() == 1)
@@ -35,22 +37,22 @@ if(!empty($_POST['username']) && !empty($_POST['password'])){
     <div class="row2">
     <form action="" method="post">
             <div class="row21">
-            <label for="username"><b>Username</b></label>
+            <label for="username"><b>Identifiant</b></label>
             <br>
-            <input type="text" placeholder="Enter Username" name="username" required>
+            <input type="text" placeholder="Entrer l'identifiant" name="username" required>
             </div>
             <div class="row22">
-            <label for="password"><b>Password</b></label>
+            <label for="password"><b>Mot de passe</b></label>
             <br>
-            <input type="password" placeholder="Enter Password" name="password" required>
+            <input type="password" placeholder="Entrer le mot de passe" name="password" required>
             </div>
             <div class="row23">
-            <button type="submit"><a>Login</a></button>
+            <button type="submit"><a>Connexion</a></button>
             </div>
     </form>
     </div>
     <div class="row3">
-        <a class="btn" href="bienvenue.php">Retour <=</a>
+        <a class="btn" href="index.php">Retour <=</a>
     </div>
 </div>
 
@@ -66,16 +68,19 @@ if(!empty($_POST['username']) && !empty($_POST['password'])){
         margin:0 auto;
         background-color:#9CC69B;
         color:#233D4D;
+		border-radius : 20px;
         }
 
     h1{
         text-align:center;
+		
     }
 
     h2, label{
         background-color:#9CC69B;
         color:#233D4D;
         padding: 5px;
+		border-radius : 5px;
     }
 
     input{
@@ -89,9 +94,11 @@ if(!empty($_POST['username']) && !empty($_POST['password'])){
         display:flex;
         flex-direction:column;
         margin: 5em auto;
+		border-radius : 20px;
     }
     .row1, .row15, .row2{
         margin: 1em auto;
+		
     }
 
     .row15{
@@ -106,6 +113,7 @@ if(!empty($_POST['username']) && !empty($_POST['password'])){
     .row21, .row22, .row23{
         margin-top: 1em;
         flex-direction: column;
+		
     }
 
     .row23{

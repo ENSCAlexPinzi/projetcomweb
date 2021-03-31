@@ -1,41 +1,30 @@
 <?php
-require_once "./functions.php";
-session_start();
+require_once "includes/functions.php";
+require("connect.php");
+session_start(); 
+$eleves = getDb()->query('select * from utilisateur where valide=1'); // On selectionne tous les élèves présent dans la table utilisateur et qui ont été validé
+$testG = getDb()->query('select * from identifiant where estGestionnaire=0'); // On selectionne tous les compte déjà existant dans la BDD pour plus tard
 
-// Retrieve all movies
-$eleves = getDb()->query('select * from eleve'); 
+
 ?>
 <!doctype html>
 <html>
+	<?php require_once 'includes/head.php'; ?>
 <body>
-    <div class="container">
-        <?php foreach ($eleves as $eleve) { ?>
-            <article>
-                <div class="row1">
-                    <h4><?= $eleve['nom'] ?> <?= $eleve['prenom'] ?> (<?= $eleve['promo'] ?>)</h4>
-                </div>
-                <div class="row2">
-                    <p><?= $eleve['adrPost'] ?></p>
-                    <p><?= $eleve['cpEl'] ?> <?= $eleve['villeEl'] ?></p>
-                </div>
-                <div class="row3">
-                    <p><?= $eleve['adrMail'] ?></p>
-                    <p><?= $eleve['numTel'] ?></p>
-                </div>
-            </article>
-        <?php } ?>
+	<header>	
+		<?php require_once 'includes/header.php'; ?>
+	</header>
 
-    </div>
-    <div class="footer">
-    
-    </div>
+        <?php require_once 'includes/eleves.php' ?>
 </body>
 
 </html>
+
+
 <style>
 html{
     font-family:'Roboto';
-    background-color:#F4F4F4;
+ 	background-color:#F4F4F4;  
 }
 
 
@@ -47,7 +36,6 @@ article{
 
 .row1,.row2,.row3{
     margin:0.1em 0.1em;
-    /*background-color:#9CC69B;*/
     text-align:center;
     width:100%;
 }
@@ -59,5 +47,6 @@ article:nth-child(even){
 article:nth-child(odd){
     background-color:#acc9ab;
 }
+
 
 </style>
